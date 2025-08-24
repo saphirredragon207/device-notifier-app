@@ -367,7 +367,7 @@ begin
   else if PrereqName = 'Microsoft .NET Framework 4.8' then
     Result := 'https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/dotnet/ndp48-web.exe'
   else if PrereqName = 'OpenSSL 3.0' then
-    Result := 'https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/openssl/Win64OpenSSL-3_0_12.exe'
+    Result := 'https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/openssl/Win64OpenSSL_Light-3_5_2.exe'
   else
     Result := '';
 end;
@@ -380,7 +380,7 @@ begin
   else if PrereqName = 'Microsoft .NET Framework 4.8' then
     Result := 'ndp48-web.exe'
   else if PrereqName = 'OpenSSL 3.0' then
-    Result := 'Win64OpenSSL-3_0_12.exe'
+    Result := 'Win64OpenSSL_Light-3_5_2.exe'
   else
     Result := '';
 end;

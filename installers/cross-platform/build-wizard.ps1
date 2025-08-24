@@ -460,7 +460,7 @@ function New-SilentInstallConfig {
             prereqSources = @{
                 vcruntime = "https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/vc_redist/vc_redist.x64.exe"
                 dotnet = "https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/dotnet/ndp48-web.exe"
-                openssl = "https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/openssl/Win64OpenSSL-3_0_12.exe"
+                openssl = "https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/openssl/Win64OpenSSL_Light-3_5_2.exe"
             }
             verifySha256 = $true
             acceptLicense = $true

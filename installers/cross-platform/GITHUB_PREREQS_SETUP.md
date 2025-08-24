@@ -20,8 +20,8 @@ device-notifier-app/
 │       │   ├── ndp48-web.exe
 │       │   └── ndp48-web.exe.sha256
 │       └── openssl/
-│           ├── Win64OpenSSL-3_0_12.exe
-│           └── Win64OpenSSL-3_0_12.exe.sha256
+│           ├── Win64OpenSSL_Light-3_5_2.exe
+│           └── Win64OpenSSL_Light-3_5_2.exe.sha256
 ├── docs/
 ├── scripts/
 └── ... (other existing folders)
@@ -33,7 +33,7 @@ The installer will download prerequisites from these URLs in your main repositor
 
 - **Visual C++ Redistributable**: `https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/vc_redist/vc_redist.x64.exe`
 - **Microsoft .NET Framework**: `https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/dotnet/ndp48-web.exe`
-- **OpenSSL**: `https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/openssl/Win64OpenSSL-3_0_12.exe`
+- **OpenSSL**: `https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/openssl/Win64OpenSSL_Light-3_5_2.exe`
 
 ## Setup Steps
 
@@ -57,8 +57,8 @@ Invoke-WebRequest -Uri "https://aka.ms/vs/17/release/vc_redist.x64.exe" -OutFile
 # Download .NET Framework
 Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/?LinkId=2085155" -OutFile "prerequisites\windows\dotnet\ndp48-web.exe"
 
-# Download OpenSSL
-Invoke-WebRequest -Uri "https://slproweb.com/download/Win64OpenSSL-3_0_12.exe" -OutFile "prerequisites\windows\openssl\Win64OpenSSL-3_0_12.exe"
+# Download OpenSSL (Light 3.5.2)
+Invoke-WebRequest -Uri "https://slproweb.com/download/Win64OpenSSL_Light-3_5_2.exe" -OutFile "prerequisites\windows\openssl\Win64OpenSSL_Light-3_5_2.exe"
 ```
 
 ### 3. Generate SHA256 Checksums
@@ -69,7 +69,7 @@ Get-FileHash -Path "prerequisites\windows\vc_redist\vc_redist.x64.exe" -Algorith
 
 Get-FileHash -Path "prerequisites\windows\dotnet\ndp48-web.exe" -Algorithm SHA256 | Select-Object -ExpandProperty Hash | Out-File -FilePath "prerequisites\windows\dotnet\ndp48-web.exe.sha256" -Encoding ASCII
 
-Get-FileHash -Path "prerequisites\windows\openssl\Win64OpenSSL-3_0_12.exe" -Algorithm SHA256 | Select-Object -ExpandProperty Hash | Out-File -FilePath "prerequisites\windows\openssl\Win64OpenSSL-3_0_12.exe.sha256" -Encoding ASCII
+Get-FileHash -Path "prerequisites\windows\openssl\Win64OpenSSL_Light-3_5_2.exe" -Algorithm SHA256 | Select-Object -ExpandProperty Hash | Out-File -FilePath "prerequisites\windows\openssl\Win64OpenSSL_Light-3_5_2.exe.sha256" -Encoding ASCII
 ```
 
 ### 4. Commit and Push
@@ -101,7 +101,7 @@ The installer scripts have already been updated to use these URLs. When you buil
 After uploading, verify the download URLs work by testing them in a browser:
 - https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/vc_redist/vc_redist.x64.exe
 - https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/dotnet/ndp48-web.exe
-- https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/openssl/Win64OpenSSL-3_0_12.exe
+- https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/openssl/Win64OpenSSL_Light-3_5_2.exe
 
 ## Maintenance
 
