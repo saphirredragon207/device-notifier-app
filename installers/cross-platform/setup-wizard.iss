@@ -363,11 +363,11 @@ end;
 function GetPrereqDownloadUrl(const PrereqName: String): String;
 begin
   if PrereqName = 'Visual C++ Redistributable 2015-2022' then
-    Result := 'https://github.com/saphirredragon207/device-notifier-prereqs/raw/main/windows/vc_redist/vc_redist.x64.exe'
+    Result := 'https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/vc_redist/vc_redist.x64.exe'
   else if PrereqName = 'Microsoft .NET Framework 4.8' then
-    Result := 'https://github.com/saphirredragon207/device-notifier-prereqs/raw/main/windows/dotnet/ndp48-web.exe'
+    Result := 'https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/dotnet/ndp48-web.exe'
   else if PrereqName = 'OpenSSL 3.0' then
-    Result := 'https://github.com/saphirredragon207/device-notifier-prereqs/raw/main/windows/openssl/Win64OpenSSL-3_0_12.exe'
+    Result := 'https://github.com/saphirredragon207/device-notifier-app/raw/main/prerequisites/windows/openssl/Win64OpenSSL-3_0_12.exe'
   else
     Result := '';
 end;
