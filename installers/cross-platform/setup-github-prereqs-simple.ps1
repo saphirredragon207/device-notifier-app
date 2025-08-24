@@ -209,9 +209,9 @@ This repository contains all prerequisite files needed for the Device Notifier i
 ## Contents
 
 ### Windows Prerequisites
-- **Visual C++ Redistributable 2015-2022**: Runtime libraries for C++ applications
-- **Microsoft .NET Framework 4.8**: .NET runtime environment
-- **OpenSSL 3.0**: SSL/TLS cryptography library
+# - **Visual C++ Redistributable 2015-2022**: Runtime libraries for C++ applications
+# - **Microsoft .NET Framework 4.8**: .NET runtime environment
+# - **OpenSSL 3.0**: SSL/TLS cryptography library
 
 ## File Structure
 \`\`\`

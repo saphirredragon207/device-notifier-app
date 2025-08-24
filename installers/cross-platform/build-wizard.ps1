@@ -483,12 +483,12 @@ function New-BuildDocumentation {
 This installer provides a professional Windows setup wizard that guides users through installing Device Notifier with automatic prerequisite management and Discord integration setup.
 
 ## Features
-- **Guided Wizard Interface**: Step-by-step installation process
-- **Automatic Prerequisites**: Downloads and installs required components
-- **Checksum Verification**: Ensures download integrity
-- **Discord Integration**: Optional bot configuration during install
-- **System Integration**: Automatic service setup and startup configuration
-- **Silent Install**: Support for automated deployments
+# - **Guided Wizard Interface**: Step-by-step installation process
+# - **Automatic Prerequisites**: Downloads and installs required components
+# - **Checksum Verification**: Ensures download integrity
+# - **Discord Integration**: Optional bot configuration during install
+# - **System Integration**: Automatic service setup and startup configuration
+# - **Silent Install**: Support for automated deployments
 
 ## Building the Installer
 
