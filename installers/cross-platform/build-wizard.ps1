@@ -493,9 +493,9 @@ This installer provides a professional Windows setup wizard that guides users th
 ## Building the Installer
 
 ### Prerequisites
-- **Windows 10/11**: Required for modern installer features
-- **PowerShell 5.1+**: Required for build script
-- **Internet Connection**: For downloading prerequisites
+# - **Windows 10/11**: Required for modern installer features
+# - **PowerShell 5.1+**: Required for build script
+# - **Internet Connection**: For downloading prerequisites
 
 ### Build Commands
 ```powershell
@@ -535,16 +535,16 @@ Create a `silent-install-config.json` file with your preferences:
 
 ### Windows (Inno Setup)
 Edit `setup-wizard.iss`:
-- Modify wizard pages and flow
-- Add custom prerequisite checks
-- Customize installation options
-- Update branding and styling
+# - Modify wizard pages and flow
+# - Add custom prerequisite checks
+# - Customize installation options
+# - Update branding and styling
 
 ### Build Scripts
 Edit `build-wizard.ps1`:
-- Modify prerequisite URLs and checksums
-- Customize build process
-- Update installer metadata
+# - Modify prerequisite URLs and checksums
+# - Customize build process
+# - Update installer metadata
 
 ## Distribution
 
@@ -555,8 +555,8 @@ Set-AuthenticodeSignature -FilePath "DeviceNotifier-Setup-Wizard.exe" -Certifica
 ```
 
 ### Windows Store
-- Package as MSIX for Microsoft Store distribution
-- Use App Installer for enterprise deployment
+# - Package as MSIX for Microsoft Store distribution
+# - Use App Installer for enterprise deployment
 
 ## Troubleshooting
 

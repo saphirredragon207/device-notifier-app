@@ -1,5 +1,5 @@
 [Setup]
-AppId={{12345678-1234-1234-1234-123456789012}
+AppId={{12345678-1234-1234-1234-123456789012}}
 AppName=Device Notifier
 AppVersion=1.0.0
 AppVerName=Device Notifier 1.0.0
@@ -13,7 +13,7 @@ AllowNoIcons=yes
 LicenseFile=license.txt
 OutputDir=output
 OutputBaseFilename=DeviceNotifier-Setup-Wizard
-SetupIconFile=icon.ico
+; SetupIconFile=icon.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -27,7 +27,7 @@ DisableWelcomePage=no
 DisableReadyPage=no
 DisableFinishedPage=no
 SetupLogging=yes
-LogFileName=DeviceNotifier-Install.log
+; LogFileName=DeviceNotifier-Install.log
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -39,7 +39,7 @@ Name: "discord_integration"; Description: "Configure Discord integration during 
 
 [Files]
 ; Main application files (will be built during installation)
-Source: "files\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+; Source: "files\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\Device Notifier"; Filename: "{app}\DeviceNotifier.exe"
@@ -67,6 +67,27 @@ Filename: "net"; Parameters: "stop DeviceNotifierAgent"; Flags: runhidden
 Filename: "{app}\device-notifier-agent.exe"; Parameters: "uninstall"; Flags: runhidden
 
 [Code]
+// Download manager class
+type
+  TDownloadManager = class
+  private
+    FDownloads: TStringList;
+    FCurrentDownload: Integer;
+    FTotalDownloads: Integer;
+    FDownloadedBytes: Int64;
+    FTotalBytes: Int64;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure AddDownload(const Url, Filename, ExpectedSha256: String);
+    function DownloadAll: Boolean;
+    function VerifyChecksum(const Filename, ExpectedSha256: String): Boolean;
+    property TotalDownloads: Integer read FTotalDownloads;
+    property CurrentDownload: Integer read FCurrentDownload;
+    property DownloadedBytes: Int64 read FDownloadedBytes;
+    property TotalBytes: Int64 read FTotalBytes;
+  end;
+
 var
   // Wizard pages
   WelcomePage: TOutputMsgWizardPage;
@@ -102,27 +123,6 @@ var
   // Error handling
   LastError: String;
   RollbackRequired: Boolean;
-
-// Download manager class
-type
-  TDownloadManager = class
-  private
-    FDownloads: TStringList;
-    FCurrentDownload: Integer;
-    FTotalDownloads: Integer;
-    FDownloadedBytes: Int64;
-    FTotalBytes: Int64;
-  public
-    constructor Create;
-    destructor Destroy; override;
-    procedure AddDownload(const Url, Filename, ExpectedSha256: String);
-    function DownloadAll: Boolean;
-    function VerifyChecksum(const Filename, ExpectedSha256: String): Boolean;
-    property TotalDownloads: Integer read FTotalDownloads;
-    property CurrentDownload: Integer read FCurrentDownload;
-    property DownloadedBytes: Int64 read FDownloadedBytes;
-    property TotalBytes: Int64 read FTotalBytes;
-  end;
 
 constructor TDownloadManager.Create;
 begin
