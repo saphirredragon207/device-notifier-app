@@ -1,0 +1,69 @@
+[package]
+name = "device-notifier"
+version = "0.1.0"
+edition = "2021"
+authors = ["Device Notifier Team"]
+description = "Cross-platform device notifier with Discord integration"
+license = "MIT"
+
+[[bin]]
+name = "device-notifier"
+path = "agent/src/main.rs"
+
+[dependencies]
+# Core async runtime
+tokio = { version = "1.0", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_derive = "1.0"
+
+# Security and cryptography
+ring = "0.17"
+hmac = "0.12"
+sha2 = "0.10"
+aes-gcm = "0.10"
+base64 = "0.21"
+
+# HTTP client for Discord
+reqwest = { version = "0.11", features = ["json", "rustls-tls"] }
+
+# Cross-platform system monitoring
+sysinfo = "0.29"
+winapi = { version = "0.3", features = ["winuser", "processthreadsapi", "securitybaseapi"] }
+core-foundation = "0.9"
+core-foundation-sys = "0.8"
+security-framework = "2.8"
+
+# Logging and configuration
+tracing = "0.1"
+tracing-subscriber = "0.3"
+config = "0.13"
+dirs = "5.0"
+
+# UUID and time
+uuid = { version = "1.0", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+
+# Platform-specific features
+#[cfg(target_os = "windows")]
+winapi = { version = "0.3", features = ["winsvc", "winuser", "processthreadsapi"] }
+
+#[cfg(target_os = "macos")]
+core-foundation = "0.9"
+core-foundation-sys = "0.8"
+security-framework = "2.8"
+
+[dev-dependencies]
+tokio-test = "0.4"
+mockall = "0.11"
+tempfile = "3.0"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[profile.dev]
+opt-level = 0
+debug = true

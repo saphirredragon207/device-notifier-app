@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+     xmlns:service="http://schemas.microsoft.com/wix/ServiceExtension">
+
+    <Product Id="*" 
+             Name="Device Notifier" 
+             Language="1033" 
+             Version="1.0.0.0" 
+             Manufacturer="Device Notifier Team" 
+             UpgradeCode="12345678-1234-1234-1234-123456789012">
+
+        <Package InstallerVersion="200" 
+                 Compressed="yes" 
+                 InstallScope="perMachine"
+                 Description="Device Notifier - Cross-platform device monitoring and remote control"
+                 Comments="Installs Device Notifier agent service and GUI application"
+                 Manufacturer="Device Notifier Team" />
+
+        <MajorUpgrade DowngradeErrorMessage="A newer version of Device Notifier is already installed." />
+        <MediaTemplate EmbedCab="yes" />
+
+        <!-- Icon and properties -->
+        <Icon Id="icon.ico" SourceFile="$(var.gui.TargetDir)icon.ico" />
+        <Property Id="ARPPRODUCTICON" Value="icon.ico" />
+        <Property Id="ARPCONTACT" Value="support@devicenotifier.com" />
+        <Property Id="ARPHELPLINK" Value="https://github.com/devicenotifier/docs" />
+        <Property Id="ARPURLINFOABOUT" Value="https://devicenotifier.com" />
+
+        <!-- License agreement -->
+        <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+
+        <!-- UI sequence -->
+        <UIRef Id="WixUI_InstallDir" />
+        <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+
+        <!-- Install directory -->
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="INSTALLFOLDER" Name="DeviceNotifier">
+                    <!-- Agent executable -->
+                    <Component Id="AgentExecutable" Guid="*">
+                        <File Id="agent.exe" 
+                              Name="device-notifier-agent.exe" 
+                              Source="$(var.agent.TargetDir)device-notifier-agent.exe" 
+                              KeyPath="yes" />
+                        
+                        <!-- Windows Service installation -->
+                        <service:ServiceInstall Id="DeviceNotifierService"
+                                              Type="ownProcess"
+                                              Name="DeviceNotifierAgent"
+                                              DisplayName="Device Notifier Agent"
+                                              Description="Monitors device events and communicates with Discord bot"
+                                              Start="auto"
+                                              ErrorControl="normal"
+                                              Account="LocalSystem" />
+                        
+                        <service:ServiceControl Id="StartDeviceNotifierService"
+                                               Start="install"
+                                               Stop="both"
+                                               Remove="uninstall"
+                                               Name="DeviceNotifierAgent"
+                                               Wait="yes" />
+                    </Component>
+
+                    <!-- GUI application -->
+                    <Component Id="GUIExecutable" Guid="*">
+                        <File Id="gui.exe" 
+                              Name="DeviceNotifier.exe" 
+                              Source="$(var.gui.TargetDir)DeviceNotifier.exe" 
+                              KeyPath="yes" />
+                        
+                        <!-- Start menu shortcut -->
+                        <Shortcut Id="StartMenuShortcut" 
+                                  Directory="ProgramMenuDir" 
+                                  Name="Device Notifier"
+                                  WorkingDirectory="INSTALLFOLDER"
+                                  Icon="icon.ico"
+                                  IconIndex="0"
+                                  Advertise="yes" />
+                        
+                        <!-- Desktop shortcut -->
+                        <Shortcut Id="DesktopShortcut" 
+                                  Directory="DesktopFolder" 
+                                  Name="Device Notifier"
+                                  WorkingDirectory="INSTALLFOLDER"
+                                  Icon="icon.ico"
+                                  IconIndex="0"
+                                  Advertise="yes" />
+                    </Component>
+
+                    <!-- Configuration files -->
+                    <Component Id="ConfigFiles" Guid="*">
+                        <File Id="config.toml" 
+                              Name="config.toml" 
+                              Source="$(var.agent.TargetDir)config.toml" 
+                              KeyPath="yes" />
+                        
+                        <util:XmlFile Id="UpdateConfigPath"
+                                      File="[INSTALLFOLDER]config.toml"
+                                      Action="setValue"
+                                      ElementPath="/configuration/device/install_path"
+                                      Value="[INSTALLFOLDER]" />
+                    </Component>
+
+                    <!-- Documentation -->
+                    <Component Id="Documentation" Guid="*">
+                        <File Id="README.md" 
+                              Name="README.md" 
+                              Source="$(var.ProjectDir)README.md" 
+                              KeyPath="yes" />
+                        <File Id="INSTALLATION.md" 
+                              Name="INSTALLATION.md" 
+                              Source="$(var.ProjectDir)docs/INSTALLATION.md" />
+                    </Component>
+                </Directory>
+            </Directory>
+
+            <!-- Start Menu -->
+            <Directory Id="ProgramMenuFolder">
+                <Directory Id="ProgramMenuDir" Name="Device Notifier">
+                    <Component Id="ProgramMenuDir" Guid="*">
+                        <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
+                        <util:RegistryValue Root="HKCU" 
+                                           Key="Software\DeviceNotifier" 
+                                           Name="installed" 
+                                           Type="integer" 
+                                           Value="1" 
+                                           KeyPath="yes" />
+                    </Component>
+                </Directory>
+            </Directory>
+
+            <!-- Desktop -->
+            <Directory Id="DesktopFolder" Name="Desktop" />
+        </Directory>
+
+        <!-- Feature definitions -->
+        <Feature Id="Complete" 
+                 Title="Device Notifier" 
+                 Level="1"
+                 Description="Complete installation of Device Notifier application and agent service">
+            <ComponentRef Id="AgentExecutable" />
+            <ComponentRef Id="GUIExecutable" />
+            <ComponentRef Id="ConfigFiles" />
+            <ComponentRef Id="Documentation" />
+            <ComponentRef Id="ProgramMenuDir" />
+        </Feature>
+
+        <!-- Custom actions for post-install setup -->
+        <CustomAction Id="CreateDataDirectories" 
+                     Directory="INSTALLFOLDER"
+                     ExeCommand="cmd.exe /c mkdir &quot;[INSTALLFOLDER]data&quot; &amp; mkdir &quot;[INSTALLFOLDER]logs&quot;"
+                     Return="check" />
+
+        <CustomAction Id="SetPermissions" 
+                     Directory="INSTALLFOLDER"
+                     ExeCommand="icacls &quot;[INSTALLFOLDER]&quot; /grant &quot;Users&quot;:(OI)(CI)F"
+                     Return="check" />
+
+        <!-- Install sequence -->
+        <InstallExecuteSequence>
+            <Custom Action="CreateDataDirectories" After="InstallFiles" />
+            <Custom Action="SetPermissions" After="CreateDataDirectories" />
+        </InstallExecuteSequence>
+
+        <!-- Uninstall cleanup -->
+        <Property Id="UNINSTALL_STRING" Value="[SystemFolder]msiexec.exe /x [ProductCode]" />
+    </Product>
+</Wix>
